@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+    <style>
+        .middleDiv {
+            width: 50%;
+            height: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .centerText {
+            text-align: center;
+        }
+
+        .buttonArea {
+            width: 96%;
+            height: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+            position: relative;
+            top: -40px;
+            text-align: center;
+        }
+        .actualButtonArea {
+            text-align: center;
+            margin: 10px;
+        }
+        .buttoner {
+            width: 40%;
+            margin: 10px;
+            margin-top: 10px;
+            font-size: 14pt;
+        }
+        .room {
+            border: 1px solid black;
+            width: 80%;
+            height: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <script>
+        function addDevice() {
+            alert("A");
+        }
+        function addRoom() {
+            var room = document.createElement("div");
+            room.id = "room";
+            room.className = "room";
+            
+            var roomName = document.createElement("input");
+            roomName.style.margin = "10px";
+            roomName.style.width = "50%";
+            roomName.placeholder = "Room Name";
+            roomName.type = "text";
+
+            var addDevice = document.createElement("button");
+            addDevice.innerText = "+";
+            addDevice.id = "addDevice";
+            addDevice.style.width = "60px"
+            addDevice.onclick = function () {
+                addDevice();
+            };
+
+            room.appendChild(roomName);
+            room.appendChild(addDevice);
+
+            var inputArea = document.getElementById("inputArea");
+            inputArea.appendChild(room);
+        }
+        
+
+    </script>
+    <div class="middleDiv">
+        <h1 class="centerText" style="font-size: 40pt;">Add Room</h1>
+        <h5 class="centerText" style="top: -40px; position: relative;">Add room.</h5>
+        <div class="buttonArea">
+            <div class="actualButtonArea">
+                <button class="buttoner">Back & Save</button>
+                <button class="buttoner" onclick="addRoom()">Add Room</button>
+            </div>
+            <div class="inputArea" id="inputArea">
+                EEE
+            </div>
+        </div>
+        
+        <div class="centerText" style="font-size: 10pt;">Some text here to help the user :3</div>
+    </div>
+
+</body>
+
+</html>

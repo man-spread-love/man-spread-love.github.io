@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device, initial-scale=1, maximum-scale=1">
+
+<body>
+    <style>
+        div:focus {
+            outline: none !important;
+        }
+
+        .commentInput {
+            height: 220px;
+            width: calc(90% - 4px);
+            font-size: 1pc;
+            border-radius: 4px;
+            border: 1px solid black;
+        }
+
+        .main {
+            height: calc(100% - 36px);
+            overflow: scroll;
+        }
+
+        .wrap {
+            background-color: rgb(219, 223, 231);
+            overflow: hidden;
+            border-bottom: 2px solid black;
+        }
+
+        .wrapButt {
+            background-color: rgb(219, 223, 231);
+            font-size: medium;
+            width: 46%;
+            margin: 4px;
+        }
+
+        .rectangle {
+            background-color: rgb(219, 223, 231);
+            overflow: hidden;
+            border-bottom: 2px solid black;
+        }
+
+        .room {
+            display: inline-block;
+            position: relative;
+            top: 4px;
+            margin: 4px;
+            background-color: white;
+            width: 90%;
+            border-radius: 4px;
+            border: 1px solid black;
+            /*border-bottom: 2px solid black;
+            box-shadow: 0px 0px 4px;*/
+        }
+
+        .inputGroup {
+            display: inline-block;
+            background-color: white;
+            width: 85%;
+            border-bottom: 2px solid black;
+            box-shadow: 0px 0px 4px;
+        }
+
+        .inputGroup2 {
+            display: inline-block;
+            background-color: white;
+            width: 100%;
+            border-top: 2px solid black;
+        }
+
+        .className {
+            margin: 4px;
+            width: 80%;
+            font-size: 1pc;
+        }
+
+        .ins {
+            position: relative;
+            left: -1%;
+            width: 80%;
+            height: 50%;
+            font-size: 1pc;
+        }
+
+        .insString {
+            display: inline-block;
+            position: relative;
+            right: 1.25%;
+            width: 80%;
+            font-size: 1pc;
+        }
+
+        .insNum {
+            float: left;
+            width: 48px;
+            margin: 8px;
+        }
+
+        .add {
+            float: right;
+            background-color: lime;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: bold;
+            width: 48px;
+            margin: 8px;
+        }
+
+        .add:hover {
+            background-color: rgb(20, 226, 20);
+        }
+
+        .remove {
+            background-color: red;
+            border-radius: 4px;
+            font-weight: bold;
+            float: right;
+            width: 48px;
+            margin: 8px;
+        }
+
+        .remove:hover {
+            background-color: rgb(221, 18, 18);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            text-align: center;
+            /*background-color: rgb(255, 233, 167);*/
+            background-color: rgb(219, 255, 212);
+            -ms-overflow-style: none;
+        }
+
+        .randomEmptySpace {
+            height: 50px;
+        }
+
+        html {
+            height: 100%;
+            font-family: sans-serif;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+
+        .temperature {
+            width: 84%;
+            margin: 2px;
+            font-size: 1pc;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
+    </style>
+    <script>
+        let className = [], groupName = [];
+
+        var count = localStorage.getItem("count"), m = localStorage.getItem("m" + count), n = localStorage.getItem("n" + count);
+
+        function retrieveData() {
+            for (let i = 0; i < m; i++) {
+                try {
+                    className[i] = localStorage.getItem("className_" + i + "_" + count);
+                    //groupName[i] = localStorage.getItem("groupName_" + i + "_" + count);
+                } catch (e) { }
+            }
+        }
+        retrieveData();
+        
+        function displayOutput() {
+            var inputArea = document.getElementById("outputArea");
+            for (let i = 0; i < m; i++) {
+                if (className[i]/* && groupName[i]*/) {
+
+                    var room = document.createElement("div");
+                    room.className = "room";
+
+                    var classNameTex = document.createElement("h1");
+                    classNameTex.innerHTML = className[i];
+                    classNameTex.style.textDecoration = "underline";
+
+                    /**var groupNameTex = document.createElement("h1");
+                    groupNameTex.innerHTML = groupName[i];
+                    groupNameTex.style.textDecoration = "underline";*/
+
+                    var temperatureArea = document.createElement("div");
+                    for (let j = 0; j < 12; j++) {
+                        var temperature = document.createElement("input");
+                        temperature.type = "number";
+                        temperature.className = "temperature";
+                        temperature.id = "temperature_" + i + "_" + j;
+                        if (j + 6 < 10)
+                            temperature.placeholder = "0" + (j + 6) + ":00 (°C)";
+                        else
+                            temperature.placeholder = (j + 6) + ":00 (°C)";
+                        temperatureArea.appendChild(temperature);
+                    }
+                    var tempTex = document.createElement("h4");
+                    tempTex.innerHTML = "Room Temperature";
+                    tempTex.style.textDecoration = "underline";
+
+                    room.appendChild(classNameTex);
+                    //room.appendChild(groupNameTex);
+                    room.appendChild(document.createElement("hr"));
+                    room.appendChild(tempTex);
+                    room.appendChild(temperatureArea);
+                    room.appendChild(document.createElement("p"));
+                    inputArea.appendChild(room);
+                    inputArea.appendChild(document.createElement("p"));
+
+                    if (i == m - 1) {
+                        var commentInput = document.createElement("textarea");
+                        commentInput.className = "commentInput";
+                        commentInput.placeholder = "Action taken to reduce carbon footprint (any)";
+
+                        inputArea.appendChild(commentInput);
+                    }
+                }
+            }
+        }
+
+
+        function bals() {
+            for (let i = 0; i < m; i++) {
+                for (let j = 0; j < 12; j++) {
+                    try {
+                        if (document.getElementById("temperature_" + i + "_" + j).value)
+                            localStorage.setItem("temperature_" + i + "_" + j + "_" + count, document.getElementById("temperature_" + i + "_" + j).value);
+                        else localStorage.removeItem("temperature_" + i + "_" + j + "_" + count);
+                    } catch (e) { }
+                }
+            }
+            alert(count + " : Successfully Saved!");
+            window.location.href = "./index.html";
+        }
+
+        document.addEventListener("DOMContentLoaded", displayOutput);
+    </script>
+    <div class="wrap" id="wrap">
+        <button onclick="bals()" class="wrapButt">Back & Save</button>
+    </div>
+    <div class="main">
+        <div id="outputArea">
+        </div>
+        <p></p>
+    </div>
+</body>
+
+</html>

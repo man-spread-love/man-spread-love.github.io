@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <style>
+        /*div {
+                display: inline-block;
+                margin: 10px;
+                padding: 10px;
+                height: 30px;
+            }*/
+
+        div:focus {
+            outline: none !important;
+        }
+
+        .wrap {
+            font-size: larger;
+            display: inline-block;
+            position: relative;
+            top: 4px;
+            margin: 4px;
+            background-color: white;
+            width: 90%;
+            border-radius: 6px;
+            /*border-bottom: 2px solid black;
+            box-shadow: 0px 0px 4px;*/
+        }
+
+        .wrapButt {
+            display: inline-block;
+            background-color: rgb(219, 223, 231);
+            font-size: larger;
+            width: 75%;
+            height: 48px;
+            border-radius: 8px;
+            top: 4px;
+            margin: 18px;
+            padding: 0;
+            border: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            /*background-image: linear-gradient(to right, rgb(216, 223, 228), white, rgb(216, 223, 228));*/
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            text-align: center;
+            /*background-color: rgb(188, 255, 173);*/
+            background-color: rgb(219, 255, 212);
+            -ms-overflow-style: none;
+        }
+
+        html {
+            font-family: sans-serif;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+
+        .foot {
+            height: 40px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
+    </style>
+    <p></p>
+    <div class="wrap">
+        <h1>
+            My C<img src="./img/FOOT.png" class="foot">
+        </h1>
+    </div>
+    <p></p>
+    <div class="wrap">
+        <p></p>
+        <a href="addRoom.html">
+            <button class="wrapButt">Add Room</button>
+        </a>
+        <a href="data.html">
+            <button class="wrapButt">Data</button>
+        </a>
+        <a href="analysis.html">
+            <button class="wrapButt">Analysis</button>
+        </a>
+        <a href="report.html">
+            <button class="wrapButt">Report</button>
+        </a>
+        <p></p>
+    </div>
+</body>
+
+</html>

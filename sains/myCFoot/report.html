@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+
+<body>
+    <style>
+        div:focus {
+            outline: none !important;
+        }
+
+        .commentInput {
+            height: 220px;
+            width: calc(90% - 4px);
+            font-size: 1pc;
+            border-radius: 4px;
+            border: 1px solid black;
+        }
+
+        .commentInput2 {
+            height: 220px;
+            width: 190%;
+            font-size: 1pc;
+            border-radius: 4px;
+            border: 1px solid black;
+            margin: 8px;
+        }
+
+        .commentInput3 {
+            height: 110px;
+            width: 190%;
+            font-size: 1pc;
+            border-radius: 4px;
+            border: 1px solid black;
+            margin: 8px;
+        }
+
+        .commentInput4 {
+            height: 24px;
+            width: 190%;
+            font-size: 1pc;
+            border-radius: 4px;
+            border: 1px solid black;
+            margin: 16px;
+        }
+
+        .main {
+            height: calc(100% - 36px);
+            overflow: scroll;
+        }
+
+        .wrap {
+            background-color: rgb(219, 223, 231);
+            overflow: hidden;
+            border-bottom: 2px solid black;
+        }
+
+        .wrapButt {
+            background-color: rgb(219, 223, 231);
+            font-size: medium;
+            width: 46%;
+            margin: 4px;
+        }
+
+        .rectangle {
+            background-color: rgb(219, 223, 231);
+            overflow: hidden;
+            border-bottom: 2px solid black;
+        }
+
+        .room {
+            display: inline-block;
+            position: relative;
+            top: 4px;
+            margin: 4px;
+            background-color: white;
+            width: 90%;
+            border-radius: 4px;
+            border: 1px solid black;
+            /*border-bottom: 2px solid black;
+            box-shadow: 0px 0px 4px;*/
+        }
+
+        .inputGroup {
+            display: inline-block;
+            background-color: white;
+            width: 85%;
+            border-bottom: 2px solid black;
+            box-shadow: 0px 0px 4px;
+        }
+
+        .inputGroup2 {
+            display: inline-block;
+            background-color: white;
+            width: 100%;
+            border-top: 2px solid black;
+        }
+
+        .className {
+            margin: 4px;
+            width: 80%;
+            font-size: 1pc;
+        }
+
+        .ins {
+            position: relative;
+            left: -1%;
+            width: 80%;
+            height: 50%;
+            font-size: 1pc;
+        }
+
+        .insString {
+            display: inline-block;
+            position: relative;
+            right: 1.25%;
+            width: 80%;
+            font-size: 1pc;
+        }
+
+        .insNum {
+            float: left;
+            width: 48px;
+            margin: 8px;
+        }
+
+        .add {
+            float: right;
+            background-color: lime;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: bold;
+            width: 48px;
+            margin: 8px;
+        }
+
+        .add:hover {
+            background-color: rgb(20, 226, 20);
+        }
+
+        .remove {
+            background-color: red;
+            border-radius: 4px;
+            font-weight: bold;
+            float: right;
+            width: 48px;
+            margin: 8px;
+        }
+
+        .remove:hover {
+            background-color: rgb(221, 18, 18);
+        }
+
+        /*.useRow {
+            width: 49%;
+        }*/
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            text-align: center;
+            /*background-color: rgb(255, 233, 167);*/
+            background-color: rgb(219, 255, 212);
+            -ms-overflow-style: none;
+        }
+
+        .temperature {
+            width: 84%;
+            margin: 2px;
+            font-size: 1pc;
+        }
+
+        .randomEmptySpace {
+            height: 50px;
+        }
+
+        .temperatureTable {
+            display: inline-block;
+            border: 1px solid black;
+            width: 90%;
+
+            background-color: white;
+            border-radius: 4px 4px 0 0;
+            border-top: 10px solid blue;
+            border-bottom: 2px solid black;
+            font-size: 0.74pc;
+            /*height: 200px;
+            overflow: auto;*/
+        }
+
+        .daddyDiv {
+            display: inline-block;
+            background-color: white;
+            border-radius: 4px;
+            border: 1px solid black;
+            width: 96%;
+        }
+
+        .cfootTable {
+            display: inline-block;
+            border: 1px solid black;
+            width: 90%;
+            overflow-x: auto;
+
+            background-color: white;
+            border-radius: 4px 4px 0 0;
+            border-top: 10px solid orangered;
+            border-bottom: 2px solid black;
+            font-size: 0.5pc;
+        }
+
+        .temp_t:nth-child(even) {
+            background-color: #ededed;
+        }
+
+        html {
+            height: 100%;
+            font-family: sans-serif;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+
+        .temperature {
+            width: 84%;
+            margin: 2px;
+            font-size: 1pc;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
+    </style>
+    <style>
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+    <script type="text/javascript">
+        const m = [], n = [], count = localStorage.getItem("count"), county = localStorage.getItem("count") - 1;
+        let className = [[], []], groupName = [[], []];
+        let stuffN = [[[], [],], [[], [],], [[], [],]], stuffName = [[[], [],], [[], [],], [[], [],]], stuffPow = [[[], [],], [[], [],], [[], [],]], stuffTime = [[[], [],], [[], [],], [[], [],]], temperatureVal = [[[], [],], [[], [],], [[], [],]]
+
+
+        //import './js/index.js';
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////import * as pdf from 'cordova-pdf-generator';
+
+
+
+        function sendMai(elementId) {
+
+
+
+            //ivify("nameInputText", "nameInputInput");
+
+            alert(document.getElementById("nameInputInput").value);
+
+
+            var nameInputInputNewer = document.createElement("div");
+            nameInputInputNewer.style.fontWeight = "normal";
+            nameInputInputNewer.innerText = document.getElementById("nameInputInput").value;
+            document.getElementById("nameInputTex").appendChild(nameInputInputNewer);
+            document.getElementById("nameInputInput").remove();
+
+
+
+
+            //NEW DAYYYU
+
+            var classInputInputNewer = document.createElement("div");
+            classInputInputNewer.style.fontWeight = "normal";
+            /*classInputInputNewer.style.position = "relative";
+            classInputInputNewer.style.bottom = "22px";
+            classInputInputNewer.style.left = "60px";*/
+            classInputInputNewer.innerText = document.getElementById("classInputInput").value;
+            document.getElementById("classInputTex").appendChild(classInputInputNewer);
+            document.getElementById("classInputInput").remove();
+
+            //wad/awd/awd/aw/d/
+
+
+            var introInputInputNewer = document.createElement("div");
+            introInputInputNewer.style.fontWeight = "normal";
+            introInputInputNewer.innerText = document.getElementById("introInputInput").value;
+            document.getElementById("introInputTex").appendChild(introInputInputNewer);
+            document.getElementById("introInputInput").remove();
+
+            
+
+            var prosedureInputInputNewer = document.createElement("div");
+            prosedureInputInputNewer.style.fontWeight = "normal";
+            prosedureInputInputNewer.innerText = document.getElementById("prosedureInputInput").value;
+            document.getElementById("prosedureInputTex").appendChild(prosedureInputInputNewer);
+            document.getElementById("prosedureInputInput").remove();
+
+
+
+
+
+
+
+
+
+
+            var printWindow = window.open('', '', 'height=600,width=800');
+            var content = document.getElementById(elementId).innerHTML;
+
+            printWindow.document.open();
+            printWindow.document.write('<html><head><title>Print</title>');
+            // Optionally include CSS styles for print layout
+            printWindow.document.write('<style>body { font-family: Arial, sans-serif; }</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(content);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+
+            // Wait for the content to load before calling print
+            printWindow.onload = function () {
+                printWindow.print();
+            };
+        }
+
+        /*function divify(div, son) {
+            var divy = document.getElementById(div);
+            var sony = document.getElementById(son);
+
+            var divyyy = document.createElement("div");
+            divyyy.innerText = sony.value;
+
+            divy.appendChild(divyyy);
+        }*/
+        function divify(divId, inputId) {
+            // Retrieve the parent div and input element
+            var parentDiv = document.getElementById(divId);
+            var inputElement = document.getElementById(inputId);
+
+            // Check if both elements exist
+            if (!parentDiv || !inputElement) {
+                console.error("Parent div or input element not found.");
+                return;
+            }
+
+            // Create a new div element
+            var newDiv = document.createElement("div");
+            newDiv.className = "childDiv"; // Add a class for styling
+
+            // Get the input value and sanitize it
+            var inputValue = inputElement.value.trim();
+            if (inputValue === "") {
+                alert("Please enter some text."); // Alert user if input is empty
+                return;
+            }
+
+            // Set the inner text of the new div
+            newDiv.innerText = inputValue;
+
+            // Append the new div to the parent div
+            parentDiv.appendChild(newDiv);
+
+            // Clear the input field after adding the div
+            inputElement.value = '';
+        }
+
+
+
+        ///////////////////////////////////////////cordova.plugin.
+
+        //cordova.plugins.printer.print(pdf.output('datauristring'), 'My UI PDF');
+
+        //import 'cordova-pdf-generator';
+
+
+        function round(value, decPlace) {
+            return Math.round(value * Math.pow(10, decPlace)) / Math.pow(10, decPlace);
+        }
+
+        function retrieveData() {
+            for (let i = 0; i <= count; i++) {
+                if (localStorage.getItem("m" + i) && localStorage.getItem("n" + i)) {
+                    m[i] = localStorage.getItem("m" + i);
+                    n[i] = localStorage.getItem("n" + i);
+                    for (let j = 0; j < m[i]; j++) {
+                        className[m[j]][i] = localStorage.getItem("className_" + j + "_" + i);
+                        //groupName[m[j]][i] = localStorage.getItem("groupName_" + j + "_" + i);
+                        //alert(className[m[j]][i])
+                        //alert(m[j] + "_" + i + "__" + className[m[j]][i]);
+                        for (let k = 0; k < n[i]; k++) {
+                            try {
+                                stuffName[j][k][i] = localStorage.getItem("stuffName_" + j + "_" + k + "_" + i);
+                                stuffN[j][k][i] = localStorage.getItem("stuffN_" + j + "_" + k + "_" + i);
+                                stuffPow[j][k][i] = localStorage.getItem("stuffPow_" + j + "_" + k + "_" + i);
+                                stuffTime[j][k][i] = localStorage.getItem("stuffTime_" + j + "_" + k + "_" + i);
+                                temperatureVal[j][k][i] = localStorage.getItem("temperature_" + j + "_" + k + "_" + i);
+                                //alert(j + "_" + k + "_" + i + "_" + stuffName[j][k][i]);
+                            } catch (e) { }
+                        }
+                    }
+                }
+            }
+        }
+        retrieveData();
+
+        function displayOutput() {
+            var mainDiv = document.createElement("main");
+            mainDiv.className = "mainDiv";
+            mainDiv.id = "mainDiv";
+            mainDiv.style.height = "100%";
+            mainDiv.style.overflowX = "auto";
+            //mainDiv.style.backgroundColor = "pink";
+
+            document.getElementById("main").appendChild(mainDiv);
+
+
+
+
+
+
+
+
+
+
+            var titleArea = document.createElement("div");
+            titleArea.className = "room";
+
+            var titleText = document.createElement("h1");
+            titleText.innerText = "Laporan Projek Sains";
+            titleText.style.margin = "10px";
+
+            var titleTextEng = document.createElement("div");
+            titleTextEng.innerText = "Science Project Report";
+            titleTextEng.style.fontSize = "14pt";
+            titleTextEng.style.fontStyle = "italic";
+
+            var tajuk = document.createElement("div");
+            tajuk.style.textAlign = "left";
+            tajuk.style.margin = "10px";
+            tajuk.style.fontSize = "16pt";
+            tajuk.innerText = "Tajuk: Jejak Karbon Saya";
+
+            var tajukEng = document.createElement("div");
+            tajukEng.innerText = "Title: My Carbon Footprint";
+            tajukEng.style.fontSize = "14pt";
+            tajukEng.style.fontStyle = "italic";
+
+            tajuk.appendChild(tajukEng);
+
+            titleText.appendChild(titleTextEng);
+
+            titleArea.appendChild(titleText);
+            titleArea.appendChild(tajuk);
+
+            mainDiv.appendChild(titleArea);
+
+            var inputArea = document.createElement("div");
+            inputArea.className = "room";
+
+            var subInputArea = document.createElement("div");
+            subInputArea.id = "subInputArea";
+            subInputArea.style.textAlign = "left";
+            subInputArea.style.margin = "10px";
+
+            //var nameInput = document.createElement("div");
+            
+            var nameInputTex = document.createElement("h3");
+            nameInputTex.innerText = "Nama: ";
+            nameInputTex.id = "nameInputTex";
+            var nameInputInput = document.createElement("input");
+            nameInputInput.id = "nameInputInput";
+            nameInputInput.type = "text";
+            nameInputTex.appendChild(nameInputInput);
+
+            var classInputTex = document.createElement("h3");
+            classInputTex.id = "classInputTex";
+            classInputTex.innerText = "Kelas: ";
+            var classInputInput = document.createElement("input");
+            classInputInput.id = "classInputInput";
+            classInputInput.type = "text";
+            classInputTex.appendChild(classInputInput);
+
+
+
+            var introInputTex = document.createElement("h3");
+            introInputTex.id = "introInputTex";
+            introInputTex.innerText = "Pengenalan / Introduction: ";
+            var introInputInput = document.createElement("textArea");
+            introInputInput.id = "introInputInput";
+            introInputInput.style.width = "calc(100% - 10px)";
+            introInputInput.style.height = "100px";
+            introInputTex.appendChild(document.createElement("br"));
+            introInputTex.appendChild(introInputInput);
+
+
+            var prosedureInputTex = document.createElement("h3");
+            prosedureInputTex.id = "prosedureInputTex";
+            prosedureInputTex.innerText = "Kaedah / Prosedure: ";
+            var prosedureInputInput = document.createElement("textArea");
+            prosedureInputInput.id = "prosedureInputInput";
+            prosedureInputInput.style.width = "calc(100% - 10px)";
+            prosedureInputInput.style.height = "100px";
+            prosedureInputTex.appendChild(document.createElement("br"));
+            prosedureInputTex.appendChild(prosedureInputInput);
+
+
+
+            
+            subInputArea.appendChild(nameInputTex);
+            subInputArea.appendChild(classInputTex);
+
+            subInputArea.appendChild(introInputTex);
+            subInputArea.appendChild(prosedureInputTex);
+            inputArea.appendChild(subInputArea);
+
+            mainDiv.appendChild(inputArea);
+
+            for (let i = 1; i >= 0; i--) {
+                //i = count ;3
+
+                try {
+
+
+
+
+                    mainDiv.style.width = "100%";
+                    var useRow = document.createElement("div");
+                    useRow.className = "useRow";
+                    //useRow.style.width = "calc(25% - 8 * 2)";
+                    //useRow.style.height = "20px";
+                    //useRow.style.background = "white";
+                    useRow.style.margin = "2px";
+                    //useRow.innerHTML = "AAA";
+                    useRow.style.display = "inline";
+                    useRow.style.float = "left";
+                    useRow.style.width = "calc(50% - 8px)";
+                    mainDiv.appendChild(useRow);
+
+
+                    /*if (i == 0) {
+                        var texteroo = document.createElement("h3");
+                        texteroo.innerHTML = "Name / Class:";
+                        texteroo.style.margin = "0px";
+                        texteroo.style.float = "left";
+                        texteroo.style.marginLeft = "16px";
+                        texteroo.style.position = "relative";
+                        texteroo.style.bottom = "-10px";
+                        useRow.appendChild(texteroo);
+
+                        var commentInputify = document.createElement("textarea");
+                        commentInputify.className = "commentInput4";
+                        commentInputify.placeholder = "Name / Class (any)";
+
+                        useRow.appendChild(commentInputify);
+                    }*/
+
+
+                    for (let j = 0; j < m[i]; j++) {
+                        //j = m
+
+                        var totalDiv = document.getElementById("total");
+                        var inputArea = document.getElementById("outputArea");
+
+
+
+
+
+
+
+
+                        var totalCFoot = 0;
+                        var totalElectricBil = 0;
+
+                        for (let i2 = 0; i2 < m[i]; i2++) {
+                            for (let j2 = 0; j2 < n[i]; j2++) {
+                                //alert(stuffTime[i2][j2][count - i])
+                                if (stuffPow[i2][j2][count - i])
+                                    totalCFoot += ((39 / 50000) * stuffPow[i2][j2][count - i] * stuffTime[i2][j2][count - i]) * stuffN[i2][j2][count - i]; /// n[i];
+                                if (stuffPow[i2][j2][count - i])
+                                    totalElectricBil += stuffPow[i2][j2][count - i] * stuffTime[i2][j2][count - i] * stuffN[i2][j2][count - i] * 0.218 / 1000; /// n[i];
+                                //alert(stuffN[i2][j2][count - 1])
+                                //totalCFoot += Number(stuffPow[i][j]);
+                                //alert(stuffPow[i2][j2][count - i]);
+                            }
+                        }
+                        //alert(stuffPow[0][0][count - i])
+
+                        var room = document.createElement("div");
+                        room.className = "room";
+
+                        var totalCFootTitle = document.createElement("h4");
+                        totalCFootTitle.innerHTML = "Jumlah Jejak Karbon";
+                        totalCFootTitle.style.textDecoration = "underline";
+
+                        var totalCFootTex = document.createElement("h1");
+                        if (totalCFoot >= 1000)
+                            totalCFootTex.innerHTML = round(totalCFoot / 1000, 3) + "kg";
+                        else
+                            totalCFootTex.innerHTML = round(totalCFoot, 3) + "g";
+                        totalCFootTex.style.fontSize = "2pc";
+
+                        var totalElectricBilTitle = document.createElement("h4");
+                        totalElectricBilTitle.innerHTML = "Jumlah Wang Perlu Dibayar";
+                        totalElectricBilTitle.style.textDecoration = "underline";
+
+                        var totalElectricBilTex = document.createElement("h1");
+                        totalElectricBilTex.innerHTML = "RM" + round(totalElectricBil, 2);
+
+                        room.appendChild(totalCFootTitle);
+                        room.appendChild(totalCFootTex);
+                        room.appendChild(totalElectricBilTitle);
+                        room.appendChild(totalElectricBilTex);
+                        useRow.appendChild(room);
+                        useRow.appendChild(document.createElement("p"));
+
+                        var dataReport = document.getElementById("dataReport");
+
+                        for (let i2 = 0; i2 < m[i]; i2++) {
+                            var classNameTexeroo = document.createElement("h2");
+                            classNameTexeroo.style.textDecoration = "underline";
+                            classNameTexeroo.innerHTML = className[m[i] - i2][count - i];// + "(" + groupName[m[i] - i2][count - i] + ")";
+
+                            var daddyDiv = document.createElement("div");
+                            daddyDiv.className = "daddyDiv";
+
+                            daddyDiv.appendChild(classNameTexeroo);
+                            //=====================================================================
+                            //------------------------TEMPERATURE-TABLE----------------------------
+                            //=====================================================================
+                            var temperatureTable = document.createElement("table");
+                            temperatureTable.className = "temperatureTable";
+
+                            var temperatureTableBody = document.createElement("tbody");
+                            temperatureTableBody.className = "tTableB";
+
+                            var tempArea = document.createElement("div");
+
+                            var averageTemp = 0;
+                            var nOfRelTemp = 0;
+                            for (var j2 = 0; j2 <= 13; j2++) {
+                                // table row creation
+                                var row = document.createElement("tr");
+                                row.className = "temp_t";
+                                for (var k2 = 0; k2 < 2; k2++) {
+                                    if (j2 == 0) {
+                                        var cell = document.createElement("td");
+                                        if (k2 == 0)
+                                            var cellText = document.createTextNode("Time");
+                                        else if (k2 == 1)
+                                            var cellText = document.createTextNode("Temperature (°C)");
+                                        cell.appendChild(cellText);
+                                        row.appendChild(cell);
+                                    }
+                                    else if (j2 > 0 && j2 < 13) {
+                                        var cell = document.createElement("td");
+                                        if (k2 == 0) {
+                                            if (j2 + 6 > 9)
+                                                var cellText = document.createTextNode((j2 + 6) + ":00");
+                                            else
+                                                var cellText = document.createTextNode("0" + (j2 + 6) + ":00");
+                                        }
+                                        else if (k2 == 1 && localStorage.getItem("temperature_" + (i2) + "_" + (j2 - 1) + "_" + (count - i))) {
+                                            var tempy = localStorage.getItem("temperature_" + (i2) + "_" + (j2 - 1) + "_" + (count - i));
+                                            if (tempy == Math.floor(tempy))
+                                                var cellText = document.createTextNode(localStorage.getItem("temperature_" + (i2) + "_" + (j2 - 1) + "_" + (count - i)) + ".0");
+                                            else var cellText = document.createTextNode(localStorage.getItem("temperature_" + (i2) + "_" + (j2 - 1) + "_" + (count - i)));
+                                            averageTemp += Number(localStorage.getItem("temperature_" + (i2) + "_" + (j2 - 1) + "_" + (count - i)));
+                                            nOfRelTemp++
+                                        }
+                                        else if (k2 == 1 && !localStorage.getItem("temperature_" + i + "_" + (j - 1) + "_" + localStorage.getItem("count")))
+                                            var cellText = document.createTextNode("-");
+                                        cell.appendChild(cellText);
+                                        row.appendChild(cell);
+                                    }
+                                    else if (j2 == 13) {
+
+                                        var cell = document.createElement("td");
+                                        if (k2 == 0)
+                                            var cellText = document.createTextNode("Average");
+                                        else if (k2 == 1)
+                                            var cellText = document.createTextNode(round(averageTemp / nOfRelTemp, 3));
+                                        cell.appendChild(cellText);
+                                        row.appendChild(cell);
+                                    }
+                                }
+                                temperatureTableBody.appendChild(row);
+
+                                // append the <tbody> inside the <table>
+                                temperatureTable.appendChild(temperatureTableBody);
+                            }
+
+
+                            //=====================================================================
+                            //----------------------------CFOOT-TABLE------------------------------
+                            //=====================================================================
+                            var nOfCFF = 0;
+                            var nOfCF = 0;
+                            for (let cfp = 0; cfp < n; cfp++) {
+                                try {
+                                    if (stuffPow[i][cfp][count - i] && stuffTime[i][cfp][count - i]);
+                                    nOfCFF++;
+                                } catch (e) { /*alert(i + " " + cfp + " e:" + e)*/ }
+                            }
+
+                            nOfCF = nOfCFF;
+
+                            var cfootTable = document.createElement("table");
+                            cfootTable.className = "cfootTable";
+
+                            var cfootTableBody = document.createElement("tbody");
+                            cfootTableBody.className = "tTableB";
+
+                            var cfootArea = document.createElement("div");
+
+                            var averageCfoot = 0;
+                            var nOfRelCfoot = 0;
+                            for (var j2 = 0; j2 <= nOfCF + 2; j2++) {
+                                // table row creation
+                                var row = document.createElement("tr");
+                                row.className = "temp_t";
+                                for (var k2 = 0; k2 < 4; k2++) {
+                                    if (j2 == 0) {
+                                        var cell = document.createElement("td");
+                                        if (k2 == 0)
+                                            var cellText = document.createTextNode("Device");
+                                        else if (k2 == 1)
+                                            var cellText = document.createTextNode("Time (h)");
+                                        else if (k2 == 2)
+                                            var cellText = document.createTextNode("Power (W)");
+                                        else if (k2 == 3)
+                                            var cellText = document.createTextNode("Carbon Footprint (g)");
+                                        cell.appendChild(cellText);
+                                        row.appendChild(cell);
+                                    }
+                                    else if (j2 > 0 && j2 < nOfCF + 2) {
+                                        var cell = document.createElement("td");
+                                        console.warn(n[i]);
+                                        if (k2 == 0) {
+                                            try {
+                                                var cellText = document.createTextNode(stuffName[i2][j2 - 1][1]);
+                                            } catch (e) { }
+                                        }
+                                        else if (k2 == 1 && localStorage.getItem("temperature_" + (i2) + "_" + (j2 - 1) + "_" + (count - i))) {
+                                            var tempy = localStorage.getItem("temperature_" + (i2) + "_" + (j2 - 1) + "_" + (count - i));
+                                            if (tempy == Math.floor(tempy))
+                                                var cellText = document.createTextNode(localStorage.getItem("temperature_" + (i2) + "_" + (j2 - 1) + "_" + (count - i)) + ".0");
+                                            else var cellText = document.createTextNode(localStorage.getItem("temperature_" + (i2) + "_" + (j2 - 1) + "_" + (count - i)));
+                                            averageCfoot += Number(localStorage.getItem("temperature_" + (i2) + "_" + (j2 - 1) + "_" + (count - i)));
+                                            nOfRelCfoot++
+                                        }
+                                        else if (k2 == 1 && !localStorage.getItem("temperature_" + i + "_" + (j - 1) + "_" + localStorage.getItem("count")))
+                                            var cellText = document.createTextNode("-");
+                                        cell.appendChild(cellText);
+                                        row.appendChild(cell);
+                                    }
+                                    else if (j2 == nOfCF + 2) {
+
+                                        var cell = document.createElement("td");
+                                        if (k2 == 0)
+                                            var cellText = document.createTextNode("Average");
+                                        else if (k2 == 1)
+                                            var cellText = document.createTextNode(round(averageCfoot / nOfRelCfoot, 3));
+                                        cell.appendChild(cellText);
+                                        row.appendChild(cell);
+                                    }
+                                }
+                                cfootTableBody.appendChild(row);
+
+                                // append the <tbody> inside the <table>
+                                cfootTable.appendChild(cfootTableBody);
+                            }
+
+
+
+                            tempArea.appendChild(temperatureTable);
+                            cfootArea.appendChild(cfootTable);
+                            daddyDiv.appendChild(tempArea);
+                            daddyDiv.appendChild(cfootArea);
+                            daddyDiv.appendChild(document.createElement("p"));
+                            useRow.appendChild(daddyDiv);
+                            useRow.appendChild(document.createElement("p"));
+                            //alert("a" + i2);
+                        }
+                        var commentInput = document.createElement("textarea");
+                        commentInput.className = "commentInput";
+                        commentInput.placeholder = "Action taken to reduce carbon footprint (any)";
+
+                        useRow.appendChild(commentInput);
+                    }
+                    if (i == 1) {
+                        var texteridoo = document.createElement("h3");
+                        texteridoo.innerHTML = "Rumusan / Summary:";
+                        //texteridoo.style.margin = "20px";
+                        texteridoo.style.float = "left";
+                        texteridoo.style.marginLeft = "16px";
+                        texteridoo.style.position = "relative";
+                        texteridoo.style.bottom = "-2px";
+                        useRow.appendChild(texteridoo);
+
+                        var commentInput2 = document.createElement("textarea");
+                        commentInput2.style.width = "calc(200% - 10px)";
+                        commentInput2.className = "commentInput2";
+                        commentInput2.placeholder = "Report (any)";
+
+                        useRow.appendChild(commentInput2);
+
+                        var texteridoo2 = document.createElement("h3");
+                        texteridoo2.innerHTML = "Kesimpulan / Conclusion:";
+                        texteridoo2.style.margin = "0px";
+                        texteridoo2.style.float = "left";
+                        texteridoo2.style.marginLeft = "16px";
+                        texteridoo2.style.position = "relative";
+                        //texteridoo2.style.bottom = "-10px";
+                        useRow.appendChild(texteridoo2);
+
+                        var commentInput22 = document.createElement("textarea");
+                        commentInput22.style.width = "calc(200% - 10px)";
+                        commentInput22.className = "commentInput3";
+                        commentInput22.placeholder = "Conclusion (any)";
+
+                        useRow.appendChild(commentInput22);
+                    }
+                } catch (e) { }
+
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", displayOutput);
+    </script>
+    <div class="wrap" id="wrap">
+        <a href="index.html">
+            <button class="wrapButt">Kembali</button>
+        </a>
+        <button onclick="sendMai('mainDiv')" class="wrapButt" id="capture-screenshot">Print</button>
+    </div>
+    <div class="main" id="main">
+    </div>
+    <div class="wrap" id="wrap">
+        <button onclick="send()" class="wrapButt">Hantar Report</button>
+    </div>
+</body>
+
+</html>

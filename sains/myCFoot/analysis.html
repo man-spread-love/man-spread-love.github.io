@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device, initial-scale=1, maximum-scale=1">
+
+<body>
+    <style>
+        div:focus {
+            outline: none !important;
+        }
+
+        .daddyDiv {
+            display: inline-block;
+            background-color: white;
+            border-radius: 4px;
+            border: 1px solid black;
+            width: 86%;
+        }
+
+        .commentInput {
+            height: 220px;
+            width: 90%;
+            font-size: 1pc;
+        }
+
+        .main {
+            height: calc(100% - 36px);
+            overflow: scroll;
+        }
+
+        .wrap {
+            background-color: rgb(219, 223, 231);
+            overflow: hidden;
+            border-bottom: 2px solid black;
+        }
+
+        .wrapButt {
+            background-color: rgb(219, 223, 231);
+            font-size: medium;
+            width: 46%;
+            margin: 4px;
+        }
+
+        .rectangle {
+            background-color: rgb(219, 223, 231);
+            overflow: hidden;
+            border-bottom: 2px solid black;
+        }
+
+        .room {
+            display: inline-block;
+            position: relative;
+            top: 4px;
+            margin: 4px;
+            background-color: white;
+            width: 80%;
+            border-radius: 4px;
+            border: 1px solid black;
+            /*border-bottom: 2px solid black;
+            box-shadow: 0px 0px 4px;*/
+        }
+
+        .inputGroup {
+            display: inline-block;
+            background-color: white;
+            width: 85%;
+            border-bottom: 2px solid black;
+            box-shadow: 0px 0px 4px;
+        }
+
+        .inputGroup2 {
+            display: inline-block;
+            background-color: white;
+            width: 100%;
+            border-top: 2px solid black;
+        }
+
+        .tTableB {
+            display: inline-block;
+        }
+
+        .className {
+            margin: 4px;
+            width: 80%;
+            font-size: 1pc;
+        }
+
+        .ins {
+            position: relative;
+            left: -1%;
+            width: 80%;
+            height: 50%;
+            font-size: 1pc;
+        }
+
+        .insString {
+            display: inline-block;
+            position: relative;
+            right: 1.25%;
+            width: 80%;
+            font-size: 1pc;
+        }
+
+        .insNum {
+            float: left;
+            width: 48px;
+            margin: 8px;
+        }
+
+        .add {
+            float: right;
+            background-color: lime;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: bold;
+            width: 48px;
+            margin: 8px;
+        }
+
+        .add:hover {
+            background-color: rgb(20, 226, 20);
+        }
+
+        .remove {
+            background-color: red;
+            border-radius: 4px;
+            font-weight: bold;
+            float: right;
+            width: 48px;
+            margin: 8px;
+        }
+
+        .remove:hover {
+            background-color: rgb(221, 18, 18);
+        }
+
+        .temperatureTable {
+            display: inline-block;
+            border: 1px solid black;
+            width: 80%;
+
+            background-color: white;
+            border-radius: 4px 4px 0 0;
+            border-top: 10px solid blue;
+            border-bottom: 2px solid black;
+            font-size: 1.3pc;
+            /*height: 200px;
+            overflow: auto;*/
+        }
+
+        .cfootTable {
+            display: inline-block;
+            border: 1px solid black;
+            width: 86%;
+            overflow-x: auto;
+
+            background-color: white;
+            border-radius: 4px 4px 0 0;
+            border-top: 10px solid orangered;
+            border-bottom: 2px solid black;
+            font-size: 1.1pc;
+        }
+
+        .temp_t:nth-child(even) {
+            background-color: #ededed;
+        }
+
+        .cfoot_t:nth-child(1) {
+            background-color: #ededed;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            text-align: center;
+            /*background-color: rgb(255, 233, 167);*/
+            background-color: rgb(219, 255, 212);
+            -ms-overflow-style: none;
+        }
+
+        .randomEmptySpace {
+            height: 50px;
+        }
+
+        html {
+            height: 100%;
+            font-family: sans-serif;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+
+        .temperature {
+            width: 84%;
+            margin: 2px;
+            font-size: 1pc;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
+    </style>
+    <script>
+        const count = localStorage.getItem("count"), m = localStorage.getItem("m" + count), n = localStorage.getItem("n" + count);
+        var stuffN = [[], []], stuffPow = [[], []], stuffTime = [[], []], stuffName = [[], []], className = [], groupName = [];
+
+        function round(value, decPlace) {
+            return Math.round(value * Math.pow(10, decPlace)) / Math.pow(10, decPlace);
+        }
+
+        function retrieveData() {
+            for (let i = 0; i < m + 1; i++) {
+                try {
+                    className[i] = localStorage.getItem("className_" + i + "_" + count);
+                    //groupName[i] = localStorage.getItem("groupName_" + i + "_" + count);
+                } catch (e) { }
+                for (let j = 0; j < n + 1; j++) {
+                    try {
+                        stuffN[i][j] = localStorage.getItem("stuffN_" + i + "_" + j + "_" + count);
+                        stuffPow[i][j] = localStorage.getItem("stuffPow_" + i + "_" + j + "_" + count);
+                        stuffTime[i][j] = localStorage.getItem("stuffTime_" + i + "_" + j + "_" + count);
+                        stuffName[i][j] = localStorage.getItem("stuffName_" + i + "_" + j + "_" + count);
+                    } catch (e) { }
+                }
+            }
+        }
+        retrieveData();
+
+        function displayOutput() {
+            var totalDiv = document.getElementById("total");
+            var inputArea = document.getElementById("outputArea");
+            var totalCFoot = 0;
+
+            var totalElectricBil = 0;
+            for (let i = 0; i < m; i++) {
+                for (let j = 0; j < n; j++) {
+                    totalCFoot += ((39 / 50000) * stuffPow[i][j] * stuffTime[i][j]) * stuffN[i][j];
+                    totalElectricBil += stuffPow[i][j] * stuffTime[i][j] * stuffN[i][j] * 0.218 / 1000;
+                    //totalCFoot += Number(stuffPow[i][j]);
+                }
+            }
+            var room = document.createElement("div");
+            room.className = "room";
+
+            var totalCFootTitle = document.createElement("h4");
+            totalCFootTitle.innerHTML = "Total Carbon Footprint";
+            totalCFootTitle.style.textDecoration = "underline";
+
+            var totalCFootTex = document.createElement("h1");
+            if (totalCFoot >= 1000)
+                totalCFootTex.innerHTML = round(totalCFoot / 1000, 3) + "kg";
+            else
+                totalCFootTex.innerHTML = round(totalCFoot, 3) + "g";
+
+
+
+            var totalElectricBilTitle = document.createElement("h4");
+            totalElectricBilTitle.innerHTML = "Amount to Pay / Day";
+            totalElectricBilTitle.style.textDecoration = "underline";
+
+
+            var totalElectricBilTex = document.createElement("h1");
+            totalElectricBilTex.innerHTML = "RM" + round(totalElectricBil, 2);
+
+
+            room.appendChild(totalCFootTitle);
+            room.appendChild(totalCFootTex);
+            room.appendChild(totalElectricBilTitle);
+            room.appendChild(totalElectricBilTex);
+            totalDiv.appendChild(room);
+
+            var dataReport = document.getElementById("dataReport");
+            // cells creation
+            for (let i = 0; i < m; i++) {
+                var classNameTexeroo = document.createElement("h2")
+                classNameTexeroo.style.textDecoration = "underline";
+                classNameTexeroo.innerHTML = className[i];// + " (" + groupName[i] + ")";
+
+                var daddyDiv = document.createElement("div");
+                daddyDiv.className = "daddyDiv";
+
+                daddyDiv.appendChild(classNameTexeroo);
+
+                //=====================================================================
+                //------------------------TEMPERATURE-TABLE----------------------------
+                //=====================================================================
+                var temperatureTable = document.createElement("table");
+                temperatureTable.className = "temperatureTable";
+
+                var temperatureTableBody = document.createElement("tbody");
+                temperatureTableBody.className = "tTableB";
+
+                var tempArea = document.createElement("div");
+
+                var averageTemp = 0;
+                var nOfRelTemp = 0;
+                for (var j = 0; j <= 13; j++) {
+                    // table row creation
+                    var row = document.createElement("tr");
+                    row.className = "temp_t";
+                    for (var k = 0; k < 2; k++) {
+                        if (j == 0) {
+                            var cell = document.createElement("td");
+                            if (k == 0)
+                                var cellText = document.createTextNode("Time");
+                            else if (k == 1)
+                                var cellText = document.createTextNode("Temperature (°C)");
+                            cell.appendChild(cellText);
+                            row.appendChild(cell);
+                        }
+                        else if (j > 0 && j < 13) {
+                            var cell = document.createElement("td");
+                            if (k == 0) {
+                                if (j > 9)
+                                    var cellText = document.createTextNode(j + ":00");
+                                else
+                                    var cellText = document.createTextNode("0" + j + ":00");
+                            }
+                            else if (k == 1 && localStorage.getItem("temperature_" + i + "_" + (j - 1) + "_" + localStorage.getItem("count"))) {
+                                var tempy = localStorage.getItem("temperature_" + i + "_" + (j - 1) + "_" + localStorage.getItem("count"));
+                                if (tempy == Math.floor(tempy))
+                                    var cellText = document.createTextNode(localStorage.getItem("temperature_" + i + "_" + (j - 1) + "_" + localStorage.getItem("count")) + ".0");
+                                else var cellText = document.createTextNode(localStorage.getItem("temperature_" + i + "_" + (j - 1) + "_" + localStorage.getItem("count")));
+                                averageTemp += Number(localStorage.getItem("temperature_" + i + "_" + (j - 1) + "_" + localStorage.getItem("count")));
+                                nOfRelTemp++
+                            }
+                            else if (k == 1 && !localStorage.getItem("temperature_" + i + "_" + (j - 1) + "_" + localStorage.getItem("count")))
+                                var cellText = document.createTextNode("-");
+                            cell.appendChild(cellText);
+                            row.appendChild(cell);
+                        }
+                        else if (j == 13) {
+
+                            var cell = document.createElement("td");
+                            if (k == 0)
+                                var cellText = document.createTextNode("Average");
+                            else if (k == 1)
+                                var cellText = document.createTextNode(round(averageTemp / nOfRelTemp, 3));
+                            cell.appendChild(cellText);
+                            row.appendChild(cell);
+                        }
+                    }
+                    temperatureTableBody.appendChild(row);
+
+                    // append the <tbody> inside the <table>
+                    temperatureTable.appendChild(temperatureTableBody);
+                }
+                //=====================================================================
+                //------------------------CFOOT-TABLE----------------------------------
+                //=====================================================================
+                //Number of carbon footprint
+                var nOfCFF = 0;
+                var nOfCF = 0;
+                for (let cfp = 0; cfp < n; cfp++) {
+                    try {
+                        if (stuffPow[i][cfp] && stuffTime[i][cfp]);
+                        nOfCFF++;
+                    } catch (e) { /*alert(i + " " + cfp + " e:" + e)*/ }
+                }
+
+                nOfCF = nOfCFF;
+
+                //Create table
+                var cfTable = document.createElement("table");
+                cfTable.className = "cfootTable";
+
+                var cfTableBody = document.createElement("tbody");
+                cfTableBody.className = "tTableB";
+
+                var cfArea = document.createElement("div");
+
+                var averagePow = 0;
+                var nOfRelPow = 0;
+
+                var averageTime = 0;
+                var nOfRelTime = 0;
+
+                var averageCFooty = 0;
+                var nOfRelCFooty = 0;
+                for (let j = 0; j < nOfCF + 1; j++) {
+                    var row = document.createElement("tr");
+                    row.className = "cfoot_t";
+                    //alert(j);
+                    for (var k = 0; k < 5; k++) {
+                        var cell = document.createElement("td");
+                        if (j == 0) {
+                            if (k == 0)
+                                var cellText = document.createTextNode("Device (any)");
+                            else if (k == 1)
+                                var cellText = document.createTextNode("Time (h)");
+                            else if (k == 2)
+                                var cellText = document.createTextNode("Power (W)");
+                            else if (k == 3)
+                                var cellText = document.createTextNode("Carbon Footprint (g)");
+                            else if (k == 4)
+                                var cellText = document.createTextNode("Amount to Pay / Day (RM)");
+                        }
+                        else if (j > 0 && j < nOfCF + 1 && stuffName[i][j - 1] && stuffTime[i][j - 1] && stuffPow[i][j - 1]) {
+                            if (k == 0) {
+                                if (stuffName[i][j - 1] && stuffTime[i][j - 1] && stuffPow[i][j - 1])
+                                    var cellText = document.createTextNode(stuffName[i][j - 1] + " x" + stuffN[i][j - 1]);
+                            }
+                            else if (k == 1) {
+                                var cellText = document.createTextNode(stuffTime[i][j - 1]);
+                                averageTime += stuffTime[i][j - 1] / (nOfCF - 1);
+                                nOfRelTime++;
+                            }
+                            else if (k == 2) {
+                                var cellText = document.createTextNode(stuffPow[i][j - 1]);
+                                averagePow += stuffPow[i][j - 1] / (nOfCF - 1);
+                                nOfRelPow++;
+                            }
+                            else if (k == 3) {
+                                var cellText = document.createTextNode((stuffPow[i][j - 1] * (stuffTime[i][j - 1] * 100 / 60) * 39 / 50));
+                                averageCFooty += (39 / 50000) * stuffPow[i][j] * (stuffTime[i][j]);
+                                nOfRelCFooty++;//aaaaaaaaaaaaaaaa
+                            }
+                            else if (k == 4) {
+                                var cellText = document.createTextNode(forceDec(round(stuffPow[i][j - 1] * stuffTime[i][j - 1] * stuffN[i][j - 1] * 0.218 / 1000, 2)));
+                            }
+                        }
+                        else if (j == nOfCF + 1) {
+                            if (k == 0)
+                                var cellText = document.createTextNode("Average");
+                            else if (k == 1)
+                                var cellText = document.createTextNode(round(averageTime / nOfRelTime, 3));
+                            else if (k == 2)
+                                var cellText = document.createTextNode(round(averagePow / nOfRelPow, 3));
+                            else if (k == 3)
+                                var cellText = document.createTextNode(round(averageCFooty / nOfRelCFooty, 3));
+                        }
+                        cell.appendChild(cellText);
+                        row.appendChild(cell);
+                    }
+                    cfTableBody.appendChild(row);
+                    // append the <tbody> inside the <table>
+                    cfTable.appendChild(cfTableBody);
+                }
+
+
+
+                tempArea.appendChild(temperatureTable);
+                daddyDiv.appendChild(tempArea);
+                daddyDiv.appendChild(document.createElement("p"));
+                dataReport.appendChild(daddyDiv);
+                dataReport.appendChild(document.createElement("p"));
+
+                cfArea.appendChild(cfTable);
+                daddyDiv.appendChild(cfArea);
+                daddyDiv.appendChild(document.createElement("p"));
+                dataReport.appendChild(daddyDiv);
+                dataReport.appendChild(document.createElement("p"));
+            }
+        }
+        function forceDec(num) {
+            if (Math.floor(num) == num)
+                return num + ("00");
+            else if (Math.floor(num * 10) == num * 10)
+                return num + ("0");
+            else if (Math.floor(num * 100) == num * 100)
+                return num;
+        }
+        document.addEventListener("DOMContentLoaded", displayOutput);
+    </script>
+    <div class="wrap" id="wrap">
+        <a href="index.html">
+            <button class="wrapButt">Back</button>
+        </a>
+    </div>
+    <div class="main">
+        <div id="outputArea">
+            <p></p>
+            <div class="total" id="total"></div>
+            <p></p>
+            <div class="dataReport" id="dataReport"></div>
+            <p></p>
+        </div>
+        <p></p>
+    </div>
+</body>
+
+</html>

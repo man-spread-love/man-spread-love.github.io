@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+
+<body>
+    <style>
+        .middleDiv {
+            width: 50%;
+            margin: auto;
+            height: fit-content;
+            position: fixed;
+            top: -50px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .centerText {
+            text-align: center;
+        }
+
+        .loginArea {
+            width: 90%;
+            height: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+            position: relative;
+        }
+
+        .actualLoginArea {
+            text-align: center;
+            margin: 10px;
+        }
+
+        .actualLoginArea::content {
+            margin: 10px;
+        }
+    </style>
+    <script>
+
+    </script>
+    <div class="middleDiv">
+        <div class="loginArea">
+            <div class="actualLoginArea">
+                Register for <a style="font-weight: bold;">Reportify</a>
+                <br>
+                <input id="username" type="text" style="width: 75%; margin-top: 10px;" placeholder="username">
+                <br>
+                <input id="email" type="email" style="width: 75%; margin-top: 10px;" placeholder="email">
+                <br>
+                <input id="password" type="password" style="width: 75%; margin-top: 10px;" placeholder="password">
+                <br>
+                <button style="width: 14%; margin-top: 10px;">
+                    Register
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

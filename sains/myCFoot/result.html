@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device, initial-scale=1, maximum-scale=1">
+
+<body>
+    <style>
+        /*div {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px;
+            height: 30px;
+        }*/
+
+        div:focus {
+            outline: none !important;
+        }
+
+        .resultContainer {
+            display: inline-block;
+            /*margin: 8px;
+            padding: 8px;*/
+            background-color: white;
+            width: 75%;
+            border-bottom: 2px solid black;
+            box-shadow: 0px 0px 4px;
+            border-radius: 8px;
+
+        }
+
+        .temperatureTable {
+            display: inline-block;
+
+            background-color: white;
+            box-shadow: 0px 0px 2px;
+            border: 1px solid black;
+            border-radius: 4px 4px 0 0;
+            border-bottom: 3px solid black;
+            border-top: 10px solid blue;
+            /*height: 200px;
+            overflow: auto;*/
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            /*background-image: linear-gradient(to right, rgb(216, 223, 228), white, rgb(216, 223, 228));*/
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            text-align: center;
+            background-color: rgb(153, 232, 174);
+            -ms-overflow-style: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: #D6EEEE;
+        }
+
+        html {
+            font-family: sans-serif;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
+    </style>
+    <script>
+        function round(value, decPlace) {
+            return Math.round(value * Math.pow(10, decPlace)) / Math.pow(10, decPlace);
+        }
+        function createContents() {
+            var resultContainer = document.getElementById("resultContainer");
+            /*const header = document.createElement("h4");
+            header.textContent = "Total Carbon Footprint";
+            header.style.textDecoration = "underline";*/
+
+            var sumOutputVal = localStorage.getItem("sum");
+            var sumValue = document.createElement("h1");
+            sumValue.id = "sumValue";
+
+            //Avrge cfootprint/room
+            var sumAvrg = document.createElement("h2");
+            sumAvrg.id = "sumAvrg";
+
+            if (sumOutputVal < 1000) {
+                sumValue.textContent = round(sumOutputVal, 3) + "g";
+                sumAvrg.textContent = (sumOutputVal / localStorage.getItem("m")) + "g";
+            }
+            else if (sumOutputVal >= 1000 && sumOutputVal < 1000000) {
+                sumValue.textContent = round(sumOutputVal / 1000, 3) + "kg";
+                sumAvrg.textContent = sumOutputVal / (localStorage.getItem("m") * 1000) + "kg";
+            }
+            else if (sumOutputVal >= 1000000) {
+                sumValue.textContent = round(sumOutputVal / 1000000, 3) + "Mg";
+                sumAvrg.textContent = sumOutputVal / (localStorage.getItem("m") * 1000000) + "Mg";
+            }
+            //resultContainer.appendChild(header);
+            resultContainer.appendChild(sumValue);
+            //resultContainer.appendChild(sumAvrg)
+            //resultContainer.appendChild(document.createTextNode(bals));
+            var m = localStorage.getItem("m");
+
+            var dataReport = document.getElementById("dataReport");
+            var temperatureTable = document.createElement("table");
+            var temperatureTableBody = document.createElement("tbody");
+            // cells creation
+            for (let i = 0; i < m; i++) {
+                var averageTemp = 0;
+                var nOfRelTemp = 0;
+                for (var j = 0; j <= 25; j++) {
+                    // table row creation
+                    var row = document.createElement("tr");
+                    if (j == 0)
+                        for (var k = 0; k < 2; k++) {
+                            var cell = document.createElement("td");
+                            //var cellText = document.createTextNode("cell is row " + j + ", column " + k);
+                            if (k == 0)
+                                var cellText = document.createTextNode("Time");
+                            else if (k == 1)
+                                var cellText = document.createTextNode("Temperature (°C)");
+                            cell.appendChild(cellText);
+                            row.appendChild(cell);
+                        }
+                    else if (j > 0 && j < 25)
+                        for (var k = 0; k < 2; k++) {
+                            var cell = document.createElement("td");
+                            //var cellText = document.createTextNode("cell is row " + j + ", column " + k);
+                            if (k == 0) {
+                                if (j > 9)
+                                    var cellText = document.createTextNode(j + ":00");
+                                else
+                                    var cellText = document.createTextNode("0" + j + ":00");
+                            }
+                            else if (k == 1 && localStorage.getItem("temperature_" + i + "_" + (j - 1) + "_" + (localStorage.getItem("count") - 1))) {
+                                var cellText = document.createTextNode(localStorage.getItem("temperature_" + i + "_" + (j - 1) + "_" + (localStorage.getItem("count") - 1)));
+                                averageTemp += Number(localStorage.getItem("temperature_" + i + "_" + (j - 1) + "_" + (localStorage.getItem("count") - 1)));
+                                nOfRelTemp++
+                            }
+                            else if (k == 1 && !localStorage.getItem("temperature_" + i + "_" + (j - 1) + "_" + (localStorage.getItem("count") - 1)))
+                                var cellText = document.createTextNode("-");
+                            cell.appendChild(cellText);
+                            row.appendChild(cell);
+                        }
+                    else if (j == 25)
+                        for (var k = 0; k < 2; k++) {
+                            var cell = document.createElement("td");
+                            //var cellText = document.createTextNode("cell is row " + j + ", column " + k);
+                            if (k == 0)
+                                var cellText = document.createTextNode("Average");
+                            else if (k == 1)
+                                var cellText = document.createTextNode(round(averageTemp / nOfRelTemp, 3));
+                            cell.appendChild(cellText);
+                            row.appendChild(cell);
+                        }
+                    temperatureTableBody.appendChild(row);
+                }
+
+            }
+            temperatureTable.className = "temperatureTable";
+            // append the <tbody> inside the <table>
+            temperatureTable.appendChild(temperatureTableBody);
+            // put <table> in the <body> and space
+            dataReport.appendChild(temperatureTable);
+            // tbl border attribute to 
+            //temperatureTable.setAttribute("border", "2");
+        }
+
+        /*function getData() {
+            var count = localStorage.getItem("count");
+            const sumEachRoom_inputPow = [];
+            const sumEachRoom_inputTime = [];
+            var x, y;
+            for (let i = 0; i < localStorage.getItem("n"); i++) {
+                for (let j = 0; j < localStorage.getItem("m"); j++) {
+                    if (localStorage.getItem("inputPow_" + i + "_" + j + "_" + count) && localStorage.getItem("inputTime_" + i + "_" + j + "_" + count)) {
+                        sumEachRoom_inputPow[j] += localStorage.getItem("inputPow_" + i + "_" + j + "_" + count);
+                        sumEachRoom_inputTime[j] += localStorage.getItem("inputTime_" + i + "_" + j + "_" + count);
+                    } else continue;
+                }
+            }
+        }*/
+        document.addEventListener("DOMContentLoaded", createContents);
+    </script>
+    <p></p>
+    <div class="resultContainer" id="resultContainer">
+        <h4 style="text-decoration: underline;">Total Carbon Footprint</h4>
+    </div>
+    <p></p>
+    MOre data here larer
+    <p></p>
+    <div class="resultContainer">
+        <p></p>
+        <div class="dataReport" id="dataReport"></div>
+        <p></p>
+    </div>
+</body>
+
+</html>

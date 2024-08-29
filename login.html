@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <style>
+        .middleDiv {
+            width: 50%;
+            height: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .centerText {
+            text-align: center;
+        }
+
+        .loginArea {
+            width: 90%;
+            height: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+            position: relative;
+            top: -40px;
+        }
+
+        .actualLoginArea {
+            text-align: center;
+            margin: 10px;
+        }
+
+        .actualLoginArea::content {
+            margin: 10px;
+        }
+    </style>
+    <script>
+
+    </script>
+    <div class="middleDiv">
+        <h1 class="centerText" style="font-size: 48pt;">Reportify</h1>
+        <h5 class="centerText" style="top: -40px; position: relative;"><a style="font-size: large;">Generate your paperless report</a><br>for your Project Based
+            Learning (PBL)</h5>
+        <br>
+        <div class="loginArea">
+            <div class="actualLoginArea">
+                Please login to your account.
+                <br>
+                <input id="email" type="email" style="width: 75%; margin-top: 10px;" placeholder="email">
+                <br>
+                <input id="password" type="password" style="width: 75%; margin-top: 10px;" placeholder="password">
+                <br>
+                <button style="width: 14%; margin-top: 10px;">
+                    Login
+                </button>
+                <br>
+                <a href="./register.html" style="margin-top: 10px; font-size: 10pt;">Don't have an account? register here.</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
